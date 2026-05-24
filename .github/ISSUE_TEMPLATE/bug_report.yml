@@ -1,0 +1,112 @@
+name: "Bug Report"
+description: Report a defect with reproducible behavior
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+        Please complete every section. Incomplete reports will be marked `needs-info` and may be closed.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One-sentence description of the bug
+      placeholder: "Checkout fails when adding an item with XAF currency"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered, deterministic steps. A reviewer should be able to reproduce this in under 2 minutes.
+      placeholder: |
+        1. Login as user `test@example.com`
+        2. Add product `P-1234` to cart
+        3. Switch currency selector to XAF
+        4. Proceed to checkout
+        5. Observe error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What did happen? Include exact error messages, logs, stack traces.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: Honest assessment
+      options:
+        - Sev-1 (production down or data loss)
+        - Sev-2 (significant functionality broken, no workaround)
+        - Sev-3 (functionality broken, workaround exists)
+        - Sev-4 (cosmetic, minor)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: Where does this happen?
+      options:
+        - Frontend (apps/web)
+        - Backend API (apps/api)
+        - Both
+        - Infrastructure
+        - Documentation
+        - Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser/OS/device for frontend bugs; Python/Django version for backend
+      placeholder: "Chrome 132 on macOS 14.3 / Python 3.13 Django 5.2"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs / screenshots
+      description: Sentry link, server logs, browser console, screenshots
+      render: shell
+
+  - type: dropdown
+    id: regression
+    attributes:
+      label: Is this a regression?
+      options:
+        - "No (or unknown)"
+        - "Yes — worked before"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues
+          required: true
+        - label: I can reproduce this consistently
+          required: true
+        - label: I have read the project's `CLAUDE.md` and conventions
+          required: false

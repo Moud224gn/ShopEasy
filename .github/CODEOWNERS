@@ -1,0 +1,22 @@
+# ShopEasy — Code Owners
+#
+# These owners will be the default reviewers for everything in the repo.
+# Order matters: later patterns take precedence over earlier ones.
+#
+# Solo developer project: @Moud224gn owns everything by default.
+# When the project grows to multiple contributors, refine this file with
+# per-directory ownership.
+#
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: solo owner for the entire repository
+*       @Moud224gn
+
+# Critical files: explicit ownership reminder
+/CLAUDE.md                          @Moud224gn
+/docs/adr/                          @Moud224gn
+/docs/conventions/                  @Moud224gn
+/.github/                           @Moud224gn
+/infrastructure/                    @Moud224gn
+/.claude/agents/                    @Moud224gn
+/.claude/commands/                  @Moud224gn

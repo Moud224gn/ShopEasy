@@ -1,0 +1,305 @@
+# =============================================================================
+# ShopEasy — .gitignore
+# =============================================================================
+# Maintained centrally. To add patterns, document why in commit message.
+# Local-only patterns go in .git/info/exclude (not committed).
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Secrets — CRITICAL (these MUST never be committed)
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+*.crt
+*.cer
+*.pfx
+*.p12
+secrets.yaml
+secrets.yml
+secrets.json
+**/secret-*.yaml
+**/private-key*
+**/credentials*.json
+**/serviceaccount*.json
+# SSH keys (never in repo — use ~/.ssh/)
+id_rsa
+id_ed25519
+*_rsa
+*_ed25519
+*.ppk
+
+# -----------------------------------------------------------------------------
+# Environment & OS
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+# Linux
+*~
+.directory
+.Trash-*
+
+# -----------------------------------------------------------------------------
+# IDE & Editors
+# -----------------------------------------------------------------------------
+# VS Code
+.vscode/*
+!.vscode/settings.json.template
+!.vscode/extensions.json
+*.code-workspace
+# JetBrains (IntelliJ, PyCharm, WebStorm)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+# Sublime
+*.sublime-project
+*.sublime-workspace
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+# Emacs
+*~
+\#*\#
+.\#*
+
+# -----------------------------------------------------------------------------
+# Python (Django backend — apps/api)
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+sdist/
+wheels/
+parts/
+develop-eggs/
+.installed.cfg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.python-version
+
+# uv
+uv.lock
+!apps/api/uv.lock
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+!apps/api/static/
+.django-cache/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage & testing
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.hypothesis/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.cache
+.mutmut-cache
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+cython_debug/
+
+# -----------------------------------------------------------------------------
+# Node.js (Next.js frontend — apps/web)
+# -----------------------------------------------------------------------------
+node_modules/
+.pnpm-store/
+.npm
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.log
+.yarn/install-state.gz
+.pnp.*
+jspm_packages/
+bower_components/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Next.js
+.next/
+out/
+.swc/
+next-env.d.ts
+
+# Production builds
+dist/
+build/
+
+# Cache directories
+.eslintcache
+.stylelintcache
+.prettiercache
+.turbo
+.parcel-cache
+
+# Testing
+coverage/
+*.lcov
+.nyc_output
+test-results/
+playwright-report/
+playwright/.cache/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# -----------------------------------------------------------------------------
+# Database (local development)
+# -----------------------------------------------------------------------------
+*.sql.bak
+*.dump
+pgdata/
+postgres-data/
+redis-data/
+
+# -----------------------------------------------------------------------------
+# Docker & local infrastructure
+# -----------------------------------------------------------------------------
+# Local docker volumes (never commit data)
+.docker/
+docker-compose.override.yml
+docker-compose.*.local.yml
+# Build artifacts
+.dockerignore.local
+
+# -----------------------------------------------------------------------------
+# Kubernetes & Terraform (local state — managed remotely)
+# -----------------------------------------------------------------------------
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# kubectl
+kubeconfig
+*.kubeconfig
+
+# Helm
+charts/*.tgz
+.helmignore.local
+
+# -----------------------------------------------------------------------------
+# Observability & logs
+# -----------------------------------------------------------------------------
+logs/
+*.log
+log/
+*.log.*
+
+# Sentry CLI
+.sentryclirc
+
+# -----------------------------------------------------------------------------
+# Project-specific
+# -----------------------------------------------------------------------------
+# Local validation marker (generated by `make pre-push` — never commit)
+.pre-push-pass
+
+# Local Claude Code workspace files
+.claude/local/
+.claude/cache/
+
+# Generated documentation builds
+docs/_build/
+docs/_site/
+site/
+
+# Bundle analyzer outputs
+.next/analyze/
+stats.json
+bundle-stats.json
+
+# Sourcemaps in production
+*.map
+!apps/web/src/**/*.map
+
+# Translation work-in-progress (compiled .mo files always regenerated)
+*.mo
+# Keep .po files (source of truth for translations)
+
+# -----------------------------------------------------------------------------
+# Misc
+# -----------------------------------------------------------------------------
+# Backup files
+*.bak
+*.backup
+*.orig
+*.rej
+# Temp files
+*.tmp
+*.temp
+tmp/
+temp/
+# Tarballs and archives
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+*.rar

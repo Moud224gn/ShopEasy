@@ -1,0 +1,96 @@
+name: "Feature Request"
+description: Propose a new capability or improvement
+labels: ["feature", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a feature. Please complete every section.
+        Strong proposals link to user value, not just technical interest.
+
+  - type: textarea
+    id: user_story
+    attributes:
+      label: User story
+      description: Format "As [user type], I want [action] so that [benefit]"
+      placeholder: "As a vendor, I want to bulk-import products via CSV so that I can onboard faster."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why does this matter? What problem does it solve? Cite numbers or user feedback if available.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria (Gherkin)
+      description: Specific, testable criteria in Given/When/Then format
+      placeholder: |
+        Given I am a vendor on the dashboard
+        When I upload a CSV with 50 products
+        Then 50 products are created in 30 seconds or less
+        And I receive an email confirmation
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches did you consider? Why this one?
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Estimated complexity
+      options:
+        - S (less than 1 day, no architectural impact)
+        - M (1-3 days, single module)
+        - L (4-10 days, possibly cross-module)
+        - XL (more than 10 days, requires ADR)
+        - Unknown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Frontend (apps/web)
+        - Backend API (apps/api)
+        - Both
+        - Infrastructure
+        - Cross-cutting (i18n, a11y, security, perf)
+    validations:
+      required: true
+
+  - type: textarea
+    id: considerations
+    attributes:
+      label: Cross-cutting considerations
+      description: |
+        Mark all that apply and provide details:
+        - i18n: new strings? new locale impact?
+        - a11y: any non-obvious WCAG concerns?
+        - Security: AuthN/AuthZ implications?
+        - Performance: bundle size, queries, cache?
+        - Multi-currency: any monetary calculation?
+        - Compliance: jurisdiction-specific requirements?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues
+          required: true
+        - label: This is a feature request, not a bug report
+          required: true
+        - label: I understand this may require an ADR if non-trivial
+          required: false
