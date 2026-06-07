@@ -4,7 +4,7 @@
 # Compatible: GNU Make 4+, Git Bash MINGW, POSIX shells
 # Avoid: bash-isms ([[ ]]), $'...' quoting, echo -e
 
-.PHONY: help setup dev dev-down dev-api dev-web logs \
+.PHONY: help setup dev dev-full dev-down dev-api dev-web logs \
         test test-api test-web test-e2e test-a11y test-i18n test-rtl test-mutation test-watch \
         lint format typecheck security \
         migrate migration shell-db shell-api \
@@ -49,7 +49,8 @@ help:
 	@printf "  make clean            Remove build artifacts and caches\n"
 	@printf "\n"
 	@printf "$(GREEN)Development:$(RESET)\n"
-	@printf "  make dev              Start Docker dev stack (postgres, redis, etc.)\n"
+	@printf "  make dev              Start Docker dev stack (postgres, redis, api, web)\n"
+	@printf "  make dev-full         Start full stack (includes minio, mailpit)\n"
 	@printf "  make dev-down         Stop Docker dev stack\n"
 	@printf "  make dev-api          Run Django development server\n"
 	@printf "  make dev-web          Run Next.js development server\n"
@@ -135,13 +136,34 @@ clean:
 # ==============================================================================
 
 dev:
-	@printf "$(RED)Not implemented yet$(RESET) - Requires docker-compose.yml (Sprint 1 issue #2)\n"
-	@printf "Run 'make dev-api' and 'make dev-web' separately for now.\n"
-	@exit 1
+	@printf "$(CYAN)Starting Docker development stack...$(RESET)\n"
+	$(DOCKER_COMPOSE) up -d
+	@printf "$(GREEN)Stack started!$(RESET)\n"
+	@printf "\nServices:\n"
+	@printf "  - API:      http://localhost:8000\n"
+	@printf "  - Web:      http://localhost:3000\n"
+	@printf "  - Postgres: localhost:5432\n"
+	@printf "  - Redis:    localhost:6379\n"
+	@printf "\nRun 'make logs' to stream logs.\n"
+	@printf "Run 'make dev-full' to include MinIO and Mailpit.\n"
+
+dev-full:
+	@printf "$(CYAN)Starting full Docker development stack...$(RESET)\n"
+	$(DOCKER_COMPOSE) --profile full up -d
+	@printf "$(GREEN)Full stack started!$(RESET)\n"
+	@printf "\nServices:\n"
+	@printf "  - API:      http://localhost:8000\n"
+	@printf "  - Web:      http://localhost:3000\n"
+	@printf "  - Postgres: localhost:5432\n"
+	@printf "  - Redis:    localhost:6379\n"
+	@printf "  - MinIO:    http://localhost:9001 (console)\n"
+	@printf "  - Mailpit:  http://localhost:8025\n"
+	@printf "\nRun 'make logs' to stream logs.\n"
 
 dev-down:
-	@printf "$(RED)Not implemented yet$(RESET) - Requires docker-compose.yml (Sprint 1 issue #2)\n"
-	@exit 1
+	@printf "$(CYAN)Stopping Docker development stack...$(RESET)\n"
+	$(DOCKER_COMPOSE) --profile full down
+	@printf "$(GREEN)Stack stopped!$(RESET)\n"
 
 dev-api:
 	@printf "$(CYAN)Starting Django development server...$(RESET)\n"
@@ -152,8 +174,7 @@ dev-web:
 	cd $(WEB_DIR) && $(PNPM) dev
 
 logs:
-	@printf "$(RED)Not implemented yet$(RESET) - Requires docker-compose.yml (Sprint 1 issue #2)\n"
-	@exit 1
+	$(DOCKER_COMPOSE) logs -f
 
 # ==============================================================================
 # Testing
@@ -245,16 +266,23 @@ perf-audit:
 # ==============================================================================
 
 migrate:
-	@printf "$(RED)Not implemented yet$(RESET) - Requires docker-compose.yml (Sprint 1 issue #2)\n"
-	@exit 1
+	@printf "$(CYAN)Running Django migrations...$(RESET)\n"
+	$(DOCKER_COMPOSE) exec api uv run python manage.py migrate
+	@printf "$(GREEN)Migrations applied!$(RESET)\n"
 
 migration:
-	@printf "$(RED)Not implemented yet$(RESET) - Requires docker-compose.yml (Sprint 1 issue #2)\n"
+ifndef name
+	@printf "$(RED)Error: name is required$(RESET)\n"
+	@printf "Usage: make migration name=<migration_name>\n"
 	@exit 1
+endif
+	@printf "$(CYAN)Creating migration: $(name)...$(RESET)\n"
+	$(DOCKER_COMPOSE) exec api uv run python manage.py makemigrations --name $(name)
+	@printf "$(GREEN)Migration created!$(RESET)\n"
 
 shell-db:
-	@printf "$(RED)Not implemented yet$(RESET) - Requires docker-compose.yml (Sprint 1 issue #2)\n"
-	@exit 1
+	@printf "$(CYAN)Opening PostgreSQL shell...$(RESET)\n"
+	$(DOCKER_COMPOSE) exec postgres psql -U postgres -d shopeasy
 
 shell-api:
 	@printf "$(CYAN)Opening Django shell...$(RESET)\n"
@@ -311,10 +339,9 @@ pre-push:
 # ==============================================================================
 
 build:
-	@printf "$(CYAN)Building Next.js production bundle...$(RESET)\n"
-	cd $(WEB_DIR) && $(PNPM) build
+	@printf "$(CYAN)Building production Docker images...$(RESET)\n"
+	$(DOCKER_COMPOSE) build --target production api web
 	@printf "$(GREEN)Build complete!$(RESET)\n"
-	@printf "$(YELLOW)Note: Docker image builds will be added in Sprint 1 issue #2.$(RESET)\n"
 
 deploy-staging:
 	@printf "$(RED)Not implemented yet$(RESET) - Requires Terraform/K8s (Sprint 13+)\n"
