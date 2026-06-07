@@ -303,3 +303,6 @@ temp/
 *.zip
 *.7z
 *.rar
+
+# TypeScript incremental build cache
+*.tsbuildinfo
