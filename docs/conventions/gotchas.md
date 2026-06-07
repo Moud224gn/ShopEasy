@@ -215,7 +215,11 @@ Flexbox et CSS Grid avec `direction: rtl` mirrorent automatiquement `flex-direct
 
 ## Multi-currency
 
-### Ne JAMAIS additionner des montants de devises différentes
+### dinero.js v2 est en alpha mais stable de facto
+
+dinero.js v2 est en alpha depuis 2023 mais est stable de facto, utilise en production par de nombreux projets. Le package `@dinero.js/currencies` v2.0.0 est stable. A surveiller : si v2 stable sort, migrer. L'API ne devrait pas changer significativement.
+
+### Ne JAMAIS additionner des montants de devises differentes
 Sans conversion explicite via taux daté, l'opération est une erreur logique.
 
 ```python
