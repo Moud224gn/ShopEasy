@@ -13,7 +13,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
 # ==============================================================================
-# Development: hot-reload
+# Development: hot-reload (runs as root to avoid volume permission issues)
 # ==============================================================================
 FROM base AS development
 
@@ -23,10 +23,9 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs && \
-    chown -R nextjs:nodejs /app
-USER nextjs
+# Note: Dev container runs as root by default.
+# This avoids EACCES errors on anonymous volumes (.next, node_modules)
+# on Windows + Docker Desktop. The production target uses a non-root user.
 
 EXPOSE 3000
 
